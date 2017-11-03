@@ -45,6 +45,7 @@ QueryBuilder.templates.rule = '\
     <div class="error-container"><i class="{{= it.icons.error }}"></i></div> \
   {{?}} \
   <div class="rule-filter-container"></div> \
+    <div class="rule-interval-container"></div> \
   <div class="rule-operator-container"></div> \
   <div class="rule-value-container"></div> \
 </li>';
@@ -65,6 +66,16 @@ QueryBuilder.templates.filterSelect = '\
     <option value="{{= filter.id }}">{{= it.translate(filter.label) }}</option> \
   {{~}} \
   {{? optgroup !== null }}</optgroup>{{?}} \
+</select>';
+
+QueryBuilder.templates.intervalSelect = '\
+<select class="form-control" name="{{= it.rule.id }}_interval">\
+    {{? it.settings.display_empty_filter }} \
+    <option value="-1">{{= it.settings.select_placeholder }}</option> \
+    {{?}} \
+    {{~ it.intervals: interval }} \
+        <option value="{{= interval }}">{{= interval }}</option> \
+    {{~}} \
 </select>';
 
 QueryBuilder.templates.operatorSelect = '\
@@ -171,6 +182,30 @@ QueryBuilder.prototype.getRuleFilterSelect = function(rule, filters) {
      * @returns {string}
      */
     return this.change('getRuleFilterSelect', h, rule, filters);
+};
+
+
+QueryBuilder.prototype.getRuleIntervalSelect = function(rule) {
+
+    var h = this.templates.intervalSelect({
+        builder: this,
+        rule: rule,
+        intervals : rule.filter ? rule.filter.intervals: [] ,
+        icons: this.icons,
+        settings: this.settings,
+        translate: this.translate.bind(this)
+    });
+
+    /**
+     * Modifies the raw HTML of the rule's filter dropdown
+     * @event changer:getRuleFilterSelect
+     * @memberof QueryBuilder
+     * @param {string} html
+     * @param {Rule} rule
+     * @param {QueryBuilder.Filter[]} filters
+     * @returns {string}
+     */
+    return this.change('getRuleIntervalSelect', h, rule);
 };
 
 /**

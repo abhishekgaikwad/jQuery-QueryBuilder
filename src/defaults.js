@@ -52,6 +52,7 @@ QueryBuilder.selectors = {
     group_container:      '.rules-group-container',
     rule_container:       '.rule-container',
     filter_container:     '.rule-filter-container',
+    interval_container:   '.rule-interval-container',
     operator_container:   '.rule-operator-container',
     value_container:      '.rule-value-container',
     error_container:      '.error-container',
@@ -66,6 +67,7 @@ QueryBuilder.selectors = {
 
     group_condition:      '.rules-group-header [name$=_cond]',
     rule_filter:          '.rule-filter-container [name$=_filter]',
+    rule_interval:        '.rule-interval-container [name$=_interval]',
     rule_operator:        '.rule-operator-container [name$=_operator]',
     rule_value:           '.rule-value-container [name*=_value_]',
 
@@ -156,6 +158,7 @@ QueryBuilder.DEFAULTS = {
         group: null,
         rule: null,
         filterSelect: null,
+        intervalSelect: null,
         operatorSelect: null
     },
 

@@ -63,6 +63,7 @@ QueryBuilder.extend(/** @lends module:plugins.ChangeFilters.prototype */ {
                     else {
                         self.createRuleFilters(rule);
 
+                        rule.$el.find(QueryBuilder.selectors.rule_interval).val(rule.interval ? rule.interval : 'DAY');
                         rule.$el.find(QueryBuilder.selectors.rule_filter).val(rule.filter ? rule.filter.id : '-1');
                         self.trigger('afterUpdateRuleFilter', rule);
                     }

@@ -90,6 +90,7 @@ $ticks-position: 5px, 10px !default;
   .rule-container {
     @extend %base-container;
 
+    .rule-interval-container,
     .rule-filter-container,
     .rule-operator-container,
     .rule-value-container {
