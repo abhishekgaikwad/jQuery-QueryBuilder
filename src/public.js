@@ -260,6 +260,7 @@ QueryBuilder.prototype.getRules = function(options) {
                 type: rule.filter ? rule.filter.type : null,
                 input: rule.filter ? rule.filter.input : null,
                 operator: rule.operator ? rule.operator.type : null,
+                interval: rule.interval ? rule.interval : null,
                 value: value
             };
 
@@ -404,13 +405,15 @@ QueryBuilder.prototype.setRules = function(data, options) {
                 }
 
                 model = self.addRule(group, item.data, self.parseRuleFlags(item));
+
+                model.interval = item.interval ? item.interval : 'DAY';
+
                 if (model === null) {
                     return;
                 }
 
                 if (!item.empty) {
                     model.filter = self.getFilterById(item.id, !options.allow_invalid);
-
                     if (model.filter) {
                         model.operator = self.getOperatorByType(item.operator, !options.allow_invalid);
 
@@ -422,6 +425,7 @@ QueryBuilder.prototype.setRules = function(data, options) {
                             model.value = item.value;
                         }
                     }
+
                 }
 
                 self.applyRuleFlags(model);

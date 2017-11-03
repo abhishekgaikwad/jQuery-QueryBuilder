@@ -1,4 +1,27 @@
 /**
+ * Final initialisation of the builder
+ * @param {object} [rules]
+ * @fires QueryBuilder.afterInit
+ * @private
+ */
+QueryBuilder.prototype.init = function(rules) {
+    /**
+     * When the initilization is done, just before creating the root group
+     * @event afterInit
+     * @memberof QueryBuilder
+     */
+    this.trigger('afterInit');
+
+    if (rules) {
+        this.setRules(rules);
+        delete this.settings.rules;
+    }
+    else {
+        this.setRoot(true);
+    }
+};
+
+/**
  * Checks the configuration of each filter
  * @param {QueryBuilder.Filter[]} filters
  * @returns {QueryBuilder.Filter[]}
@@ -562,6 +585,7 @@ QueryBuilder.prototype.createRuleFilters = function(rule) {
      * @returns {QueryBuilder.Filter[]}
      */
     var filters = this.change('getRuleFilters', this.filters, rule);
+
     var $filterSelect = $(this.getRuleFilterSelect(rule, filters));
 
     rule.$el.find(QueryBuilder.selectors.filter_container).html($filterSelect);
@@ -664,6 +688,31 @@ QueryBuilder.prototype.createRuleInput = function(rule) {
     }
 };
 
+
+
+QueryBuilder.prototype.createRuleInterval = function(rule) {
+    var $valueContainer = rule.$el.find(QueryBuilder.selectors.interval_container).empty();
+
+    var self = this;
+    var $inputs = $();
+    var intervals = rule.filter.intervals;
+    var $htmlInterval = $(this.getRuleIntervalSelect(rule)); 
+    $valueContainer.append($htmlInterval);
+    $valueContainer.show();
+
+    $htmlInterval.on('change', function() {
+         rule.interval =  rule.$el.find(QueryBuilder.selectors.rule_interval).val();
+    });
+    /**
+     * After creating the input for a rule and initializing optional plugin
+     * @event afterCreateRuleInput
+     * @memberof QueryBuilder
+     * @param {Rule} rule
+     */
+    this.trigger('afterCreateRuleInput', rule);
+};
+
+
 /**
  * Performs action when a rule's filter changes
  * @param {Rule} rule
@@ -674,7 +723,9 @@ QueryBuilder.prototype.createRuleInput = function(rule) {
 QueryBuilder.prototype.updateRuleFilter = function(rule, previousFilter) {
     this.createRuleOperators(rule);
     this.createRuleInput(rule);
+    this.createRuleInterval(rule);
 
+    rule.$el.find(QueryBuilder.selectors.rule_interval).val(rule.interval ? rule.interval : '-1');
     rule.$el.find(QueryBuilder.selectors.rule_filter).val(rule.filter ? rule.filter.id : '-1');
 
     // clear rule data if the filter changed
