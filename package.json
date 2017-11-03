@@ -52,10 +52,10 @@
   "homepage": "https://github.com/mistic100/jQuery-QueryBuilder",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mistic100/jQuery-QueryBuilder.git"
+    "url": "git@github.com:abhishekgaikwad/jQuery-QueryBuilder.git"
   },
   "bugs": {
-    "url": "https://github.com/mistic100/jQuery-QueryBuilder/issues"
+    "url": "https://github.com/abhishekgaikwad/jQuery-QueryBuilder/issues"
   },
   "scripts": {
     "test": "grunt test"
